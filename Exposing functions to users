@@ -1,0 +1,22 @@
+# it is time to use import structures to expose the functions to users.
+
+# Currently, the only function you want to make easily available to users is the convert_unit() function inside the module impyrial/length/api.py.
+
+# In this exercise, you'll write import statements so that the package can be imported and used like this:
+
+import impyrial
+
+result = impyrial.length.convert_unit(6, 'ft', 'yd')
+
+#In the __init__.py file within impyrial/length, import the convert_unit() function from the api.py module. Use a relative import.
+
+
+#Navigate to the __init__.py file in the top level of the impyrial package and import the length subpackage. Use a relative import.
+
+
+#Run example_script.py to verify that the package imports are correct.
+
+import impyrial
+
+result = impyrial.length.convert_unit(10, 'in', 'yd')
+print(result)
