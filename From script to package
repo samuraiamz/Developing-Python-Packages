@@ -1,0 +1,28 @@
+# Copy the code from myscript.py into the textanalysis.py file in textanalysis/ folder.
+
+# Open the text file
+with open('alice.txt') as file:
+    text = file.read()
+
+n = 0
+for word in text.split():
+    # Count the number of times the words in the list appear
+    if word.lower() in ['cat', 'cats']:
+        n += 1
+
+print('Lewis Carroll uses the word "cat" {} times'.format(n))
+
+
+# Modify textanalysis.py to create the function count_words(filepath, words_list) which opens the text file filepath, and returns the number of times the words in words_list appear.
+
+def count_words(filepath, words_list):
+    # Open the text file
+    with open(filepath) as file:
+        text = file.read()
+    
+    n = 0
+    for word in text.split():
+        # Count the number of times the words in the list appear
+        if word.lower() in words_list:
+            n += 1
+    return n    
