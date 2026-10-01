@@ -1,0 +1,14 @@
+# Edit the tox.ini file to test Python versions 2.7 and 3.9.
+# Add pytest as a dependency of the test environment.
+# Edit the file so tox runs pytest.
+
+
+
+[tox]
+envlist = py27, py39
+
+[testenv]
+deps = 
+	pytest
+commands =
+	pytest
