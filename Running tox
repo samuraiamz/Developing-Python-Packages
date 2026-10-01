@@ -1,0 +1,35 @@
+# Run tox from the terminal.
+# In setup.py, update the required Python version based on the tox results. Remember to remove the #.
+
+
+from setuptools import setup, find_packages
+
+# Add install requirements
+setup(
+    author="<your-name>",
+    description="A package for converting imperial lengths and weights.",
+    name="impyrial",
+    packages=find_packages(include=["impyrial", "impyrial.*"]),
+    version="0.1.0",
+    install_requires=['numpy>=1.10', 'pandas'],
+    #python_requires="==____.*",
+
+  # In terminal 
+  repl:~/workspace/mypackages/impyrial$ toxcd /home/repl/workspace/mypackages/impyrial
+bash: toxcd: command not found
+repl:~/workspace/mypackages/impyrial$ python3 setup.py
+usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
+   or: setup.py --help [cmd1 cmd2 ...]
+   or: setup.py --help-commands
+   or: setup.py cmd --help
+
+error: no commands supplied
+# the result of updating the required version after getting information from the tox
+  setup(
+    author="<your-name>",
+    description="A package for converting imperial lengths and weights.",
+    name="impyrial",
+    packages=find_packages(include=["impyrial", "impyrial.*"]),
+    version="0.1.0",
+    install_requires=['numpy>=1.10', 'pandas'],
+    #python_requires="==____.*",
