@@ -1,0 +1,16 @@
+# Run flake8 on the whole package.
+# Modify the config to ignore unused imports (F401) violations in the impyrial/__init__.py file. Make sure to uncomment the sample lines.
+# Modify the config to ignore all violations in tests/*. Make sure to uncomment the sample lines.
+# Run flake8 again to see the difference.
+
+[flake8]
+
+# Ignore F401 violations in the main __init__.py file
+per-file-ignores =
+    impyrial/__init__.py: F401          
+    setup.cfg       # Modify the config to ignore unused imports (F401) violations in the impyrial/__init__.py file. Make sure to uncomment the sample lines.
+
+        
+# Ignore all violations in the tests directoory
+exclude = tests/*
+setup.py # Modify the config to ignore all violations in tests/*. Make sure to uncomment the sample lines.
