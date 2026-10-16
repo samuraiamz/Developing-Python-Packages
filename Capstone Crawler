@@ -1,0 +1,37 @@
+# In this exercise, you will write the parse function for a spider and then fill in a few blanks to finish off the spider. On the course directory page of DataCamp, each listed course has a title and a short course description. This spider will be used to scrape the course directory to extract the course titles and short course descriptions. You will not need to follow any links this time. 
+
+# Everything you need to know is:
+# The course titles are defined by the text within an h4 element whose class contains the string block__title (double underline).
+# The short course descriptions are defined by the text within a paragraph p element whose class contains the string block__description (double underline).
+
+
+# parse method
+def parse(self, response):
+  # Extracted course titles
+  crs_titles = response.xpath('//h4[contains(@class,"block__title")]/text()').extract()
+  # Extracted course descriptions
+  crs_descrs = response.xpath('//p[contains(@class,"block__description")]/text()').extract()
+  # Fill in the dictionary
+  for crs_title, crs_descr in zip(crs_titles, crs_descrs):
+    dc_dict[crs_title] = crs_descr
+
+# Overview
+# This solution extracts all course titles and descriptions from the DataCamp course directory page using XPath expressions with the contains() function, and stores them as lists. It then pairs each title with its corresponding description.
+
+# Step-by-step breakdown
+
+# The code uses XPath with contains() to select elements whose class attributes include specific keywords:
+
+# response.xpath('//h4[contains(@class,"block__title")]/text()').extract()
+# This finds all <h4> elements with a class containing "block__title" and extracts their text, resulting in a list of course titles.
+
+# Similarly, it extracts course descriptions:
+
+# response.xpath('//p[contains(@class,"block__description")]/text()').extract()
+# This targets <p> elements with a class containing "block__description" and extracts their text, resulting in a list of descriptions.
+
+# The use of .extract() ensures that all matching elements are collected into lists, as required.
+
+# Why this solves the exercise
+
+# The solution correctly uses XPath with contains() to target the relevant HTML elements and extracts their text into lists, fulfilling the exercise requirements. By storing the results in crs_titles and crs_descrs, it ensures you have the needed data for further processing.
