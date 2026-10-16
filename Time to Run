@@ -1,0 +1,60 @@
+# The code we give you to look at in this and the next exercise is long, because its the entire spider that took us the lesson to create! However, don't be intimidated!
+# The point of these two exercises is to give you a very easy task to complete, with the hope that you will look at and run the code for this spider. That way, even though it is long, you will have a grasp of it!
+
+# Import scrapy
+import scrapy
+
+# Import the CrawlerProcess: for running the spider
+from scrapy.crawler import CrawlerProcess
+
+# Create the Spider class
+class DC_Chapter_Spider(scrapy.Spider):
+  name = "dc_chapter_spider"
+  # start_requests method
+  def start_requests(self):
+    yield scrapy.Request(url = url_short,
+                         callback = self.parse_front)
+  # First parsing method
+  def parse_front(self, response):
+    course_blocks = response.css('div.course-block')
+    course_links = course_blocks.xpath('./a/@href')
+    links_to_follow = course_links.extract()
+    for url in links_to_follow:
+      yield response.follow(url = url,
+                            callback = self.parse_pages)
+  # Second parsing method
+  def parse_pages(self, response):
+    crs_title = response.xpath('//h1[contains(@class,"title")]/text()')
+    crs_title_ext = crs_title.extract_first().strip()
+    ch_titles = response.css('h4.chapter__title::text')
+    ch_titles_ext = [t.strip() for t in ch_titles.extract()]
+    dc_dict[ crs_title_ext ] = ch_titles_ext
+
+# Initialize the dictionary **outside** of the Spider class
+dc_dict = dict()
+
+# Run the Spider
+process = CrawlerProcess()
+process.crawl(DC_Chapter_Spider)
+process.start()
+
+# Print a preview of courses
+previewCourses(dc_dict)
+
+
+# Overview
+
+This solution uses Scrapy to crawl a webpage containing DataCamp courses, extract each course's title and its chapter titles, and store them in a dictionary where each course title maps to a list of its chapter titles.
+
+Step-by-step breakdown
+
+# The spider starts by requesting the main course listing page.
+# It extracts all course links from the main page and follows each link to the individual course pages.
+# On each course page, it extracts the course title and all chapter titles.
+# The key step is:
+# dc_dict[crs_title_ext] = ch_titles_ext
+# This line assigns the list of chapter titles to the dictionary under the corresponding course title.
+# Why this solves the exercise
+
+# By assigning the chapter titles to the dictionary with the course title as the key, the solution fulfills the requirement to organize chapter titles by course. This structure allows for easy preview and further processing, exactly as the exercise asks.
+
