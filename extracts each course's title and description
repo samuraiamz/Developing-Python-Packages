@@ -1,0 +1,63 @@
+# As in the previous exercise, we have created a function previewCourses which lets you preview the output of the spider, but you can always just explore the dictionary dc_dict too after you run the code.
+
+# In this exercise, you are asked to create a CSS Locator string direct to the text of the course description. All you need to know is that from the course page, the course description text is within a paragraph p element which belongs to the class course__description (two underlines).
+
+# Import scrapy
+import scrapy
+
+# Import the CrawlerProcess: for running the spider
+from scrapy.crawler import CrawlerProcess
+
+# Create the Spider class
+class DC_Description_Spider(scrapy.Spider):
+  name = "dc_chapter_spider"
+  # start_requests method
+  def start_requests(self):
+    yield scrapy.Request(url = url_short,
+                         callback = self.parse_front)
+  # First parsing method
+  def parse_front(self, response):
+    course_blocks = response.css('div.course-block')
+    course_links = course_blocks.xpath('./a/@href')
+    links_to_follow = course_links.extract()
+    for url in links_to_follow:
+      yield response.follow(url = url,
+                            callback = self.parse_pages)
+  # Second parsing method
+  def parse_pages(self, response):
+    # Create a SelectorList of the course titles text
+    crs_title = response.xpath('//h1[contains(@class,"title")]/text()')
+    # Extract the text and strip it clean
+    crs_title_ext = crs_title.extract_first().strip()
+    # Create a SelectorList of course descriptions text
+    crs_descr = response.css('p.course__description::text')
+    # Extract the text and strip it clean
+    crs_descr_ext = crs_descr.extract_first().strip()
+    # Fill in the dictionary
+    dc_dict[crs_title_ext] = crs_descr_ext
+
+# Initialize the dictionary **outside** of the Spider class
+dc_dict = dict()
+
+# Run the Spider
+process = CrawlerProcess()
+process.crawl(DC_Description_Spider)
+process.start()
+
+# Print a preview of courses
+previewCourses(dc_dict)
+
+# Overview
+
+# This solution defines a Scrapy spider that navigates through a list of course pages, extracts each course's title and description, and stores them in a dictionary. The key part is using a CSS selector to accurately target the course description text.
+
+# Step-by-step breakdown
+
+# The spider starts by requesting the main page containing all course blocks.
+# It locates each course link and follows them to individual course pages.
+# On each course page, it extracts the course title using an XPath selector and the course description using the CSS selector:
+# response.css('p.course__description::text')
+# The extracted and cleaned title and description are added to a dictionary for later use.
+# Why this solves the exercise
+
+# The solution correctly uses the CSS locator string 'p.course__description::text' to select the text inside the paragraph element with the class course__description, exactly as required by the exercise. This ensures that only the relevant course description text is captured and stored, fulfilling the task's requirements.
