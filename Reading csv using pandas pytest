@@ -1,0 +1,17 @@
+# When you want to read a table in the CSV format in Python, you might want to use pandas.read_csv(). 
+# You will implement two integration tests with pytest to check the result of pandas.read_csv(). Then, you will run the tests with the CLI command.
+
+import pandas as pd
+import pytest
+
+# Fixture to read the dataframe
+@pytest.fixture
+def get_df():
+    return pd.read_csv('https://assets.datacamp.com/production/repositories/6253/datasets/757c6cb769f7effc5f5496050ea4d73e4586c2dd/laptops_train.csv')
+
+# Integration test function
+def test_get_df(get_df):
+    # Check the type
+    assert type(get_df) == pd.DataFrame
+    # Check the number of rows
+    assert get_df.shape[0] > 0
